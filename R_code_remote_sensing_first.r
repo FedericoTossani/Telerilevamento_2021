@@ -24,8 +24,29 @@ p224r63_2011
 #la risoluzione è di 30mx30m, è il satellite landsat.
 #le bande, sre sta per spectral reflectance. la banda 6 è la banda termica.
 #il numero totale di pixel è dato da 4447533 x 7 (ogni banda)
+#B1=Blu, B2=verde, B3=rosso, B4=NIR, oggetti che riflettono di più hanno valori più alti, mentre oggetti che assorbono di più hanno valori più bassi.
+#nella B4 le piante hanno valori molto alti perchè riflettono molto.
 
 #plot è la funzione che serve per visualizzare i dati. non servono le virgolette perchè l'oggetto è già dentro a R.
 
 plot(p224r63_2011)
+
+#uso il comando ColorRampPalette per cambiare la scala di colori visualizzata in un grafico
+
+cl <- colorRampPalette(c("black","grey","light grey")) (100)
+
+#per spiegare ad R che sono tutti elementi della stessa cosa li dobbiamo racchiudere in un array.
+#la c davanti alle parentesi indica una serie di elementi appartenti allo stesso array.
+#100 indica il numero di livelli tra il nero e il grigio chiaro, va tenuto esterno alla funzione colorRampPalette.
+
+#ora richiamo il plot di prima per vedere se i colori sono cambiati. Questa volta però nella funzione devo aggiungere un secondo elemento
+#il primo rimane la nostra immagine p224r63_2011, il secondo argomento è la scala di colori appena creata. è importante dare dei nomi alle funzioni per poter semplificare le formule in cui vanno usate.
+#nei vari argomenti all'interno della funzione posso lasciare lo spazio oppure no, a mio piacere. l'importante è mettere la virgola tra gli argomenti.
+
+plot(p224r63_2011, col=cl)
+
+#new color change
+cl <- colorRampPalette(c("red","orange","yellow", "white")) (100)
+plot(p224r63_2011, col=cl)
+
 
