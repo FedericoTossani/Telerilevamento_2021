@@ -49,4 +49,42 @@ plot(p224r63_2011, col=cl)
 cl <- colorRampPalette(c("red","orange","yellow", "white")) (100)
 plot(p224r63_2011, col=cl)
 
+#Landsat band
+#B1: blu
+#B2: green
+#B3: red
+#B4: NIR
+#B5: Middle IR
+#B6: Termic IR
+#B7: Middle IR
+
+dev.off()
+
+#dev.off pulisce la finestra grafica, così che tutte le impostanzioni ripartano da zero.
+
+#il simbolo del dollaro $ in R viene sempre usato per legare 2 pezzi, nel nostro caso la banda 1 all'immagine satellitare.
+#se voglio plottare solo la banda 1 uso sempre la funzione plot, ma nelle parentesi metto:
+
+plot(p224r63_2011$B1_sre)
+
+#plottare la banda 1 con una diversa colorRampPalette
+
+clr<-colorRampPalette(c("red", "yellow", "green")) (200)
+plot(p224r63_2011$B1_sre, col=clr)
+
+#usiamo adesso la funzione par per fare un settaggio dei parametri grafici di un certo grafico che vogliamo creare.
+#nel nostro caso ci serve per fare un multiframe (mf)
+
+#par(mfrow=c(1,2))
+
+#essendo che abbiamo 2 blocchi (1 e 2) dobbiamo racchiuderli nel vettore c.
+#questa funzione prepara i futuri grafici in un predefinito formato. A noi serve per paragonare 2 bande una di fianco all'altra.
+
+par(mfrow=c(1,2))
+plot(p224r63_2011$B1_sre)
+plot(p224r63_2011$B2_sre)
+
+
+
+
 
