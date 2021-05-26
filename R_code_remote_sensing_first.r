@@ -29,7 +29,7 @@ p224r63_2011
 
 #plot è la funzione che serve per visualizzare i dati. non servono le virgolette perchè l'oggetto è già dentro a R.
 
-plot(p224r63_2011)
+#plot(p224r63_2011)
 
 #uso il comando ColorRampPalette per cambiare la scala di colori visualizzata in un grafico
 
@@ -43,11 +43,11 @@ cl <- colorRampPalette(c("black","grey","light grey")) (100)
 #il primo rimane la nostra immagine p224r63_2011, il secondo argomento è la scala di colori appena creata. è importante dare dei nomi alle funzioni per poter semplificare le formule in cui vanno usate.
 #nei vari argomenti all'interno della funzione posso lasciare lo spazio oppure no, a mio piacere. l'importante è mettere la virgola tra gli argomenti.
 
-plot(p224r63_2011, col=cl)
+#plot(p224r63_2011, col=cl)
 
 #new color change
-cl <- colorRampPalette(c("red","orange","yellow", "white")) (100)
-plot(p224r63_2011, col=cl)
+#cln <- colorRampPalette(c("red","orange","yellow", "white")) (100)
+#plot(p224r63_2011, col=cln)
 
 #Landsat band
 #B1: blu
@@ -65,12 +65,12 @@ dev.off()
 #il simbolo del dollaro $ in R viene sempre usato per legare 2 pezzi, nel nostro caso la banda 1 all'immagine satellitare.
 #se voglio plottare solo la banda 1 uso sempre la funzione plot, ma nelle parentesi metto:
 
-plot(p224r63_2011$B1_sre)
+#plot(p224r63_2011$B1_sre)
 
 #plottare la banda 1 con una diversa colorRampPalette
 
 clr<-colorRampPalette(c("red", "yellow", "green")) (200)
-plot(p224r63_2011$B1_sre, col=clr)
+#plot(p224r63_2011$B1_sre, col=clr)
 
 #usiamo adesso la funzione par per fare un settaggio dei parametri grafici di un certo grafico che vogliamo creare.
 #nel nostro caso ci serve per fare un multiframe (mf)
@@ -80,9 +80,130 @@ plot(p224r63_2011$B1_sre, col=clr)
 #essendo che abbiamo 2 blocchi (1 e 2) dobbiamo racchiuderli nel vettore c.
 #questa funzione prepara i futuri grafici in un predefinito formato. A noi serve per paragonare 2 bande una di fianco all'altra.
 
-par(mfrow=c(1,2))
+#par(mfrow=c(1,2))
+#plot(p224r63_2011$B1_sre)
+#plot(p224r63_2011$B2_sre)
+
+#in questo modo ho un grafico con 1 riga e 2 colonne, se voglio il contrario basta che inverto i numeri nella parentesi.
+
+#ora plottiamo le prime 4 bande di Landsat
+
+par(mfrow=c(2,2))
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
+plot(p224r63_2011$B3_sre)
+plot(p224r63_2011$B4_sre)
+
+#rifacciamo il plot precedente ma con una colorRampPalette specifica di ogni banda.
+par(mfrow=c(2,2))
+clb<-colorRampPalette(c("dark blue", "blue", "light blue"))(100)
+plot(p224r63_2011$B1_sre, col=clb)
+clg<-colorRampPalette(c("dark green", "green", "light green"))(100)
+plot(p224r63_2011$B2_sre, col=clg)
+clr<-colorRampPalette(c("dark red", "red", "pink"))(100)
+plot(p224r63_2011$B3_sre, col=clr)
+cli<-colorRampPalette(c("violet", "purple", "pink"))(100)
+plot(p224r63_2011$B4_sre, col=cli)
+
+#dovendo fare un plot riassuntivo il comando par è ottimo perchè ci permette di decidere come far plottare le immagini in un'unica finestra
+
+
+##### COPIA CODICE DA QUA ####
+##### COPIA CODICE DA QUA ####
+
+
+#proveremo adesso ad unire più bande in un'unico plot, per vedere il mondo con occhi diversi.
+
+###Visualizing data by RGB plotting###
+library(raster)
+setwd("/Users/federicotossani/lab/")
+p224r63_2011 <- brick("p224r63_2011_masked.grd")
+
+#Landsat band
+#B1: blu
+#B2: green
+#B3: red
+#B4: NIR
+#B5: Middle IR
+#B6: Termic IR
+#B7: Middle IR
+
+#ogni schermo ha uno schema fisso per mostrare i colori, lo schema RGB. Ci sono dei colori di base Red, Green e Blue mischiando i quali si ottengono tutti gli altri.
+#Possiamo usare le nostre bande Landsat per ottenere diverse visualizzazione nello schema RGB. La condizione è quella di usare solo 1 banda per ogni componente. RGB=3 componenti.
+#Posso usare solo 3 bande per volta. Per ottenere una foto che rispecchia i colori visibili dall'occhio umano vanno rispettate le 3 componenti.
+#R=B3 (banda del rosso), G=B2 (banda del verde), B=B1 (banda del blu). per fare questo abbiamo bisogno di una funzione plotRGB. 
+
+
+#plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+
+#mettiamo nella funzione anche l'elemento stretch. questo prende la riflettanza delle singole bande e la "tira" nelle varia direzione per evitare che ci sia una banda preponderante. 
+
+#l'immagine ottenuta si chiama "immagine a colori naturali"
+
+#proviamo a muovere le bande di 1.
+plotRGB(p224r63_2011, 4, 3, 2, stretch="Lin")
+
+#provo a confrontare i 2 plot RGB con la funzione par
+
+par(mfrow=c(2,1))
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="Lin")
+
+#siccome abbiamo montato la B4 nella componente R di RGB e la vegetazione ha un'altissima riflettanza nel NIR, tutto quello che è vegetazione prende il colore Red.
+#lo stesso gioco si può fare con i minerali.
+
+#sposto il NIR nella componente green
+plotRGB(p224r63_2011, 3, 4, 2, stretch="Lin")
+#quando plottiamo un RGB con le bande disposte in questa maniera risultano più evidenti alcune info come ad esempio corsi d'acqua interni alla foresta oppure il suolo nudo, visibile in viola.
+#Il viola è la componente agricola, in questo caso.
+
+plotRGB(p224r63_2011, 3, 2, 4, stretch="Lin")
+
+
+### RIEPILOGO ###
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, 3, 2, 1, stretch="Lin")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="Lin")
+plotRGB(p224r63_2011, 3, 4, 2, stretch="Lin")
+plotRGB(p224r63_2011, 3, 2, 4, stretch="Lin")
+
+#per creare un pdf con i grafici appena creati va aggiunta la funzione pdf prima della serie di funzioni scritte in precedenza. come qui sotto.
+pdf("first_pdf.pdf")
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, 3, 2, 1, stretch="Lin")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="Lin")
+plotRGB(p224r63_2011, 3, 4, 2, stretch="Lin")
+plotRGB(p224r63_2011, 3, 2, 4, stretch="Lin")
+dev.off()
+
+#la funzione pdf ha moltissimi argomenti da poter inserire nella funzione, grandezza, risoluzione etc.
+
+#proviamo a modificare lo stretch. passiamo da lin a hist
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, 3, 2, 1, stretch="hist")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="hist")
+plotRGB(p224r63_2011, 3, 4, 2, stretch="hist")
+plotRGB(p224r63_2011, 3, 2, 4, stretch="hist")
+
+#lo stretch ottenuto con hist permette di aumentare ulteriormente la possibilità di guardare all'interno della foresta. In particolare sono messe in evidenza le zone più umide.
+
+#mettiamo ora un par con 3 immagini, colori naturali e falsi colori sia con stretch lin che hist
+par(mfrow=c(3,1))
+plotRGB(p224r63_2011, 3, 2, 1, stretch="Lin")
+plotRGB(p224r63_2011, 3, 4, 2, stretch="Lin")
+plotRGB(p224r63_2011, 3, 4, 2, stretch="hist")
+
+#i colori sono quelli delle rilettanze!! non possiamo mettere una legenda da valori bassi ad alti. sono effettivamente dei colori reali, dati dalla sovrapposizione di più livelli.
+
+###colorist package!!! pacchetto figo per capire la distribuzione di una specie nel tempo. nelle componente RGB si caricano le foto di 3 periodi diversi.
+#in base al colore finale del plot si capisce in quale periodo dell'anno la specie ha più sviluppo.
+
+
+#in generale per gli studi di vegetazione si usa l'IR sulla componente Red di RGB. però non c'è una visualizzazione migliore di altre.
+
+
+
+
 
 
 
