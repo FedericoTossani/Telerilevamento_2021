@@ -201,6 +201,55 @@ plotRGB(p224r63_2011, 3, 4, 2, stretch="hist")
 
 #in generale per gli studi di vegetazione si usa l'IR sulla componente Red di RGB. però non c'è una visualizzazione migliore di altre.
 
+#è importante e potente avere uno stesso satellite per lunghi periodi. Landsat è stato lanciato nel '72, ormai abbiamo 50 anni di dati.
+
+#Multitemporal analysis
+#ora andiamo ad inserire, con la funzione brick, la foto dell'88 e quella del 2011 usata fino ad ora
+
+p224r63_1988<-brick("p224r63_1988_masked.grd")
+p224r63_1988
+
+#ora plottiamo l'intera immagine con la funzione plot per visualizzare le singole bande.
+plot(p224r63_1988)
+#attraverso la funzione plotRGB andiamo ad assegnare alla componenti RGB le bande dell'immagine satellitare
+plotRGB(p224r63_1988, r=3, g=2, b=1, stretch="lin")
+#per sapere come riampire la funzione si può sempre andare a vedere sul sito rdocumentation la descrizione della funzione.
+#vado ad aggiungere lo stretch per poter visualizzare meglio i dati dell'immagine.
+#nel plot il colore violetto è una parte di haze, corpuscoli che riflettono alcune lunghezze d'onda. un po' come l'effetto del sole nelll'obiettivo di una macchina fotografica.
+#ovviamente le correzione dell'88 non sono come le attuali, di conseguenza non sono stati tolti questi effetti.
+
+#se adesso vogliamo aggiungere il NIR lo dobbiamo sostituire ad una banda, in particolare lo inserisco nella banda del rosso.
+
+plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="lin")
+
+#attraverso la funzione par faccio uno schema 2,1 con le immagini dell'88 e del 2011.
+par(mfrow=c(2,1))
+plotRGB(p224r63_2011, 4, 3, 2, stretch="lin")
+plotRGB(p224r63_1988, 4, 3, 2, stretch="lin")
+
+#se utilizziamo lo stretch hist mettiamo in evidenza le zone umide.
+
+par(mfrow=c(2,2))
+plotRGB(p224r63_1988, 4, 3, 2, stretch="lin")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="lin")
+plotRGB(p224r63_1988, 4, 3, 2, stretch="hist")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="hist")
+
+#hist utilizza una curva sinusoide (o funzione logistica). avendo una pundenza maggiore ha un effetto grafico maggiore.
+#la differenziazione tra rocce, o sabbie ad esempio. la granulometria influenza molta riflettanza ma con il lineare non si vede la differenza tra sabbia e argille, ma con un hist si può apprezzare.
+
+#in questo plot si può apprezzare il cambiamento delle zone di passaggio dalla componente vegetale alla componente umana. Nel 2011 invece è proprio una soglia netta tra la foresta pluviale e l'impatto umano.
+
+#per fare un pdf di questo plot basta inserire la funzione pdf prima del codice del plot
+pdf("second_pdf.pdf")
+par(mfrow=c(2,2))
+plotRGB(p224r63_1988, 4, 3, 2, stretch="lin")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="lin")
+plotRGB(p224r63_1988, 4, 3, 2, stretch="hist")
+plotRGB(p224r63_2011, 4, 3, 2, stretch="hist")
+dev.off()
+
+
 
 
 
