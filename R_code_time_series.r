@@ -71,7 +71,8 @@ plotRGB(TGr, 1, 2, 3, stretch="lin")
 plotRGB(TGr, 2, 3, 4, stretch="lin")
 plotRGB(TGr, 4, 3, 2, stretch="lin")
 
-#
+#finita lezione del 7/4
+
 
 
 
