@@ -4,5 +4,3 @@
 
 library(knitr)
 setwd("/Users/federicotossani/lab/")
-
-
