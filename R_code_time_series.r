@@ -120,7 +120,7 @@ levelplot(melt_amount, col.regions=clb)
 
 #le zone rosse sono quelle dove c'è stato il maggior scioglimento. come indicato dai grafici a bordo immagine c'è un picco in corrispondenza del lato ovest.
 
-#inizia da lezione del 14/04
+
 
 
 
