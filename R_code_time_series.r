@@ -3,6 +3,7 @@
 #Data and Code from Emanuela Cosma
 
 library(raster)
+library(rasterVis)
 setwd("/Users/federicotossani/lab/greenland")
 
 #oggi andiamo a creare uno stack, ovvero un insieme di dati. Nel nostro caso saranno raster.
@@ -71,7 +72,58 @@ plotRGB(TGr, 1, 2, 3, stretch="lin")
 plotRGB(TGr, 2, 3, 4, stretch="lin")
 plotRGB(TGr, 4, 3, 2, stretch="lin")
 
-#finita lezione del 7/4
+#prima di continuare va installato il pacchetto rasterVis, che ci permette di fare un level plot.
+#in pratica si occupa di metodi di visualizzazione dei dati raster.
+
+levelplot(TGr)
+
+#per poterlo fare con solo una mappa uso il simbolo $ seguito dal nome del file. il dollaro lega lo strato dello stack allo stack stesso.
+
+levelplot(TGr$lst_2000)
+#con il plot di un singolo file ai lati dell'immagine ci sono dei grafici. questi grafici riportano il valore medio di lst della colonna o della riga.
+
+#possiamo usare la colrRampPalette, perchè non è un'immagine RGB! in questo caso sono immagini singole.
+
+cl <- colorRampPalette(c("white", "light blue", "yellow", "orange", "red")) (100)
+levelplot(TGr, col.regions=cl)
+
+#con la funzione levelplot quando si cambiano i colori bisgona scrivere col.regions.
+#la differenza con il plot normale è che il levelplot ha una gamma di colori molto maggiore ed ha un outpot migliore.
+
+#cambiare i titoli!!
+
+#i singoli strati di un'immagine stack sono gli attributi. quindi abbiamo 4 attributi (i vari lst). il nostro levelplot lo possiamo cambiare nominando in modo diverso gli attributi.
+
+levelplot(TGr, col.regions=cl, main="Grennland LST variation in time", names.attr=c("July 2000", "July 2005", "July 2010", "July 2015"))
+
+#passiamo adesso ai dati sulle scioglimento!!!
+
+meltlist<-list.files(patter="melt")
+meltlist
+
+meltimp<-lapply(meltlist, raster)
+
+melt<-stack(meltimp)
+clm <- colorRampPalette(c("white", "light blue", "yellow", "orange", "red")) (100)
+levelplot(melt, col.regions=clm)
+
+levelplot(melt, col.regions=clm, main="Greenland annual melt 1979-2007")
+
+#procediamo adesso con la matrix algebra!!
+#useremo le immagini del '79 e 2007 per vedere la differenza nello scioglimento.
+#facciamo 2007-1979 più sarà alto il risultato maggiore sarà stato lo scioglimento
+
+melt_amount<- melt$X2007annual_melt - melt$X1979annual_melt
+
+clb <- colorRampPalette(c("blue", "white", "red")) (100)
+levelplot(melt_amount, col.regions=clb)
+
+#le zone rosse sono quelle dove c'è stato il maggior scioglimento. come indicato dai grafici a bordo immagine c'è un picco in corrispondenza del lato ovest.
+
+#inizia da lezione del 14/04
+
+
+
 
 
 
