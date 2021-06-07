@@ -27,6 +27,7 @@ pairs(p224r63_2011)
 #nella parte bassa della matrice trovia i grafici con tutte le correlazioni, nella parte alta invece gli indici di correlazione di pearson.
 #se siamo positivamente correlate l'indice tende a 1, se lo siamo negativamente tende a -1.
 
+
 #grazie a pairs vediamo quanto molte bande siano correlate tra loro.
 
 
