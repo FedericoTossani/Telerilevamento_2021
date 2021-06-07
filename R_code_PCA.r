@@ -66,4 +66,9 @@ p224r63_2011_pca
 
 plotRGB(p224r63_2011_pca$map, 1,2,3, stretch="lin")
 
+##################################
+# con al PCA abbiamo generato delle nuove componenti che diminuiscono l'iniziale forte correlazione tra le bande e con un numero minore di componenti possiamo spiegare tutta l'immagine originale.
+#è importante fare analisi multivariata quando ad esempio facciamo una funzione lineare (distribuzione di una specie). Se usiamo le temperature (min, max etc) sono tutte correlate tra loro.
+#molti modelli lineari presuppongono che le variabili non siano correlate tra loro. Quando questo lo sono infatti si aumenta la potenza del modello con il rischio di ottenere buoni risultati che in realtà sono falsati da questo fatto.
+
 
