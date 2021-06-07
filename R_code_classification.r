@@ -54,5 +54,28 @@ plot(sunc10$map)
 #2_faccio ugualmente la classificazione ma spiego che in quella zona ci sono nuvole che alterano la classificazione.
 #3_cambio il tipo di sensore! fino ad ora abbiamo usato i passivi, se invece uso quelli attivi (che emettono loro stessi energia) 
 
-#finita lezione del 21.04
+######################
+#### Grand Canyon ####
+######################
+library(raster)
+library(RStoolbox)
+setwd("/Users/federicotossani/lab/")
+
+#il primo passo come sempre è quello di caricare le library e settare la working directory.
+#iniziamo poi con l'importazione dell'immagine con la funzione brick. brick infatti ci permette di caricare immagini satellitari già pronte, con le bande impacchettate.
+
+gc<-brick("dolansprings_oli_2013088_canyon_lrg.jpg")
+#plotRGB(GC, 1, 2, 3, stretch="lin")
+#plotRGB(GC, 1, 2, 3, stretch="hist")
+
+gcc2<-unsuperClass(GC, nClasses=2)
+gcc2
+plot(gcc2$map)
+
+#quello che stiamo facendo è un modello di classificazione. avremo le info sulle singole classi, la mappa etc.
+#siccome siamo interessati alla mappa in uscita dobbiamo legare con il $ map nell'argomento della funzione plot.
+
+gcc4<-unsuperClass(GC, nClasses=4)
+gcc4
+plot(gcc4$map)
 
