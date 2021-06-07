@@ -71,4 +71,4 @@ plotRGB(p224r63_2011_pca$map, 1,2,3, stretch="lin")
 #è importante fare analisi multivariata quando ad esempio facciamo una funzione lineare (distribuzione di una specie). Se usiamo le temperature (min, max etc) sono tutte correlate tra loro.
 #molti modelli lineari presuppongono che le variabili non siano correlate tra loro. Quando questo lo sono infatti si aumenta la potenza del modello con il rischio di ottenere buoni risultati che in realtà sono falsati da questo fatto.
 
-
+#riprendi da lezione del 28/04 al min 1:11:00
