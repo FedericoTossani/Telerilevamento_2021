@@ -2,8 +2,9 @@
 #### Indici di Vegetazioneeeee ####
 ###################################
 
-library(raster)
-#require(raster)
+library(raster) #require(raster)
+require(RStoolbox) #for vegetation indeces calculation
+
 #require fa la stessa cosa di library, ma fa più figo
 setwd("/Users/federicotossani/lab/")
 
@@ -94,7 +95,17 @@ plot(ndvi2, col=cl, main="NDVI at time 2")
 # nel pacchetto RStoolbox ci sono già una serie di indici, tra cui l'ndvi e il SAVI. questo è un indice che prende in considerazione l'influenza del suolo nella riflettanze di un'immagine.
 # la funzione che calcola questi indici è spectralIndicies
 
+vi1<-spectralIndices(defor1, green = 3, red = 2, nir = 1)
+plot(vi1, col=cl)
 
+vi2<-spectralIndices(defor2, green = 3, red = 2, nir = 1)
+plot(vi2, col=cl)
 
+#alcuni indici necessitano del redEdge. il redEdge, nel grafico della firma spettrale, è la slope/pendenza tra la banda del rosso (valore basso) e quella del NIR (valore alto).
+#più è alta la pendenza e più sana è la vegetazione. Se la veg sta morendo, quindi non assorbe il rosse e inizia ad assorbire il NIR la slope si abbassa.
+difndvi<-ndvi1-ndvi2
+plot(difndvi, col=cl)
+
+#la vera crisi sta nelle aree rosse, è li dove c'è stata la perdita!
 
 
