@@ -4,7 +4,7 @@
 
 library(raster) #require(raster)
 require(RStoolbox) #for vegetation indeces calculation
-
+require(rasterdiv) #install.packages("rasterdiv")
 #require fa la stessa cosa di library, ma fa più figo
 setwd("/Users/federicotossani/lab/")
 
@@ -31,7 +31,10 @@ plotRGB(defor2, 1,2,3, stretch="lin")
 
 #c'è la possibilità di normalizzare l'indice attraverso il rapporto con la somma NIR + red.
 
+##############
 #### DVI1 ####
+##############
+
 defor1
 #scrivo il nome del file per vederne il contenuto, in particolare il nome delle bande!
 
@@ -47,7 +50,10 @@ plot(dvi1, col=cl, main="DVI at time zero")
 
 #ripetiamo lo stesso calcolo per defor2
 
+##############
 #### DVI2 ####
+##############
+
 dvi2 <- defor2$defor2.1 - defor2$defor2.2
 
 plot(dvi2)
@@ -107,5 +113,25 @@ difndvi<-ndvi1-ndvi2
 plot(difndvi, col=cl)
 
 #la vera crisi sta nelle aree rosse, è li dove c'è stata la perdita!
+
+##########################
+###lez. 05/05 min 29:36###
+##########################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
