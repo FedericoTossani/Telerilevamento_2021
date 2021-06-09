@@ -31,3 +31,17 @@ ggRGB(defor2, 1,2,3, stretch="lin")
 p1 <- ggRGB(defor1, 1,2,3, stretch="lin")
 p2 <- ggRGB(defor2, 1,2,3, stretch="lin")
 grid.arrange (p1,p2, nrow=2)
+
+
+##########
+
+#una mappa di vegetazione è molto più particolareggiata di una mappa di copertura, per poterla fare ci servono dei dati iperspettrali.
+#avendo molte bande ci permettono di individuare specie diverse in base ai diversi valori di riflettanza. Bisogna riuscire a vedere le diverse firme spettrali.
+#
+
+
+#############################
+#### lez.07/05 min 11:12 ####
+#############################
+
+
