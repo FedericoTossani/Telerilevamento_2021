@@ -5,6 +5,7 @@
 library(raster) #require(raster)
 require(RStoolbox) #for vegetation indeces calculation
 require(rasterdiv) #install.packages("rasterdiv")
+require(rasterVis)
 #require fa la stessa cosa di library, ma fa più figo
 setwd("/Users/federicotossani/lab/")
 
@@ -114,24 +115,20 @@ plot(difndvi, col=cl)
 
 #la vera crisi sta nelle aree rosse, è li dove c'è stata la perdita!
 
-##########################
-###lez. 05/05 min 29:36###
-##########################
+##### proviamo adesso a plottare l'NDVI dal pacchetto rasterdiv
+plot(copNDVI)
 
+#in questo plot vogliamo togliere di mezzo tutta la parte che comprende acqua.
+#questo lo possiamo fare con la funzione cbind, che permette di eliminare/cambia dei valori
+copNDVI<-raster::reclassify(copNDVI, cbind(253:255, NA)) 
+#il :: serve per legare la funzione al suo pacchetto, un po' come il dollaro. questo non serve per forza, si fa per rendere noto a chi legge il codice il pacchetto da cui proviene la funzione.
+  
+cbind(253:255, NA) # i : indicano da...a...
 
+levelplot(copNDVI)
 
+#NDVI non è relazionata al tipo di landcover, fa solo riferimento alla biomassa. 
+#l'immagine ottenuta dal levelplot fa vedere come respira la terra, sono i valori media dal '99 al 2017.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#i picchi di biomassa li abbiamo nelle foreste di N America e N Europa e all'equatore.
+#All'equatore abbiamo i valori massimi perchè qui c'è il max di luce.
