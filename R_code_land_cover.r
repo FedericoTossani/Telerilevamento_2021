@@ -7,6 +7,8 @@ require(RStoolbox)
 #require(rasterdiv)
 #require(rasterVis)
 require(ggplot2)
+install.packages("gridExtra")
+require(gridExtra)
 setwd("/Users/federicotossani/lab/")
 
 defor1<-brick("defor1.jpeg")
@@ -21,6 +23,11 @@ plotRGB(defor2, 1,2,3, stretch="lin")
 ggRGB(defor1, 1,2,3, stretch="lin")
 ggRGB(defor2, 1,2,3, stretch="lin")
 
-par(mfrow=c(1,2))
+#par(mfrow=c(1,2)) la funzione par con ggRGB non funziona, bisogna usare gridEXTRA
 ggRGB(defor1, 1,2,3, stretch="lin")
 ggRGB(defor2, 1,2,3, stretch="lin")
+#grid.arrange ci permette di organizzare il nostro multiframe come più ci piace.
+
+p1 <- ggRGB(defor1, 1,2,3, stretch="lin")
+p2 <- ggRGB(defor2, 1,2,3, stretch="lin")
+grid.arrange (p1,p2, nrow=2)
