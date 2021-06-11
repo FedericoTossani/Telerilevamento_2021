@@ -66,17 +66,49 @@ freq(d1c$map)
 #la classe 1 corrisponde alla parte agricola
 #la classe 2 alla parte di foresta
 
+#trovate le frequenze possiamo fare una proporzione.
 
-## lez 07/05 min 54
+s1<-305970+35322
+
+#frequenza pixel di forests
+prop1<-freq(d1c$map)/s1
+#nella colonna count vediamo che la parte di foresta è 89,65% mentre 10,34% è la parte agricola.
+
+s2<-342726
+prop2<-freq(d2c$map)/s2
+#            value     count
+#[1,] 2.917783e-06 0.4792254
+#[2,] 5.835565e-06 0.5207746
+
+#nella mappa relativa al 2006 la situazione è molto diversa, la foresta (classe 2) è scesa al 52,07% mentre la zona agricola è il 47,92%
+
+#la percentuale citata nei commenti è stata ottenuta moltiplicando per 100 i valori nella colonna count delle proporzioni.
 
 
+#ora generiamo un dataframe
+#metteremo nella prima colonna i fattori (variabili categoriche), nel nostro caso foresta e zona agricola.
+#la seconda e la terza colonna conterranno le percentuali di copertura nei 2 anni(1992 e 2006)
 
+cover<-c("Forest", "Agriculture")
+percent_1992<-c(89.65, 10.34)
+percent_2006<-c(52.07, 47.92)
 
+#dopo aver assegnato i valori che ci interessano ai nomi delle colonne usiamo la funzione data.frame per ottenere la tabella.
 
+df<-data.frame(cover, percent_1992, percent_2006)
+df
 
+#         cover percent_1992 percent_2006
+# 1      Forest        89.65        52.07
+# 2 Agriculture        10.34        47.92
 
+#ottenuto il data frame facciamo un grafico migliore con ggplot2
 
+# la funzione da usare è proprio ggplot e comprende il data set (mpg) e la parte estetica (aes). in quest'ultima parte spieghiamo la prima colonna, la seconda colonna e il tipo di colore.
+# serve poi la funzione geom-... che indica il tipo di grafico, geom_bar è tipo istogramma, geom_point invece usa una nuvola di punti.
+p1<-ggplot(df, aes(x=cover, y=percent_1992, color=cover))+geom_bar(stat="identity", fill="light blue")
+#l'argomento color serve a strutturare la legenda del grafico
+p2<-ggplot(df, aes(x=cover, y=percent_2006, color=cover))+geom_bar(stat="identity", fill="light blue")
 
-
-
-
+grid.arrange(p1, p2, nrow=1)
+#la funzione grid arrange ci permette di organizzare più grafici in un'unica finestra così da poterli confrontare.
