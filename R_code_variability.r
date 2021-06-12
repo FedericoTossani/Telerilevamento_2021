@@ -52,19 +52,23 @@ plot(ndvi_m3,col=cl)
 ndvi_sd9 <- focal(ndvi,w=matrix(1/81, nrow=9, ncol=9), fun=sd)
 plot(ndvi_sd9,col=cl)
 
+#aumentando la dimensione della finestra sembra che diminuisca anche la risoluzione, in realta è un effetto dato dalla grandezza della finestra.
+#la grandezza va scelta anche in base al tipo di ambiente. Nel nostro caso ci sono molti dettagli: crepacci, zone al limita tra roccia e bosco etc. con una finestra grande si tende ad omogenizzare il tutto.
 
+#per compattare dei dati c'è un'altra tecnica, oltre all'utilizza degli indici di vegetazione.
+#possiamo usare l'analisi multivariata per generare solo lo strato delle pc1 in cui sta la maggior parte della mia diversità.
+#ovviamente non spiegherà tutto il range di diversità, ma circa il 90%.
 
+sentinelpca <- rasterPCA(sentinel)
+plot(sentinelpca$map)
+#devo specificare $map perchè la funzione rasterPCA crea anche il modello
 
+summary(sentinelpca$model)
 
+#Importance of components:
+#                           Comp.1     Comp.2      Comp.3 Comp.4
+#Standard deviation     77.3362848 53.5145531 5.765599616      0
+#Proportion of Variance  0.6736804  0.3225753 0.003744348      0
+#Cumulative Proportion   0.6736804  0.9962557 1.000000000      1
 
-
-
-
-
-
-
-
-
- 
-
-
+#si nota che la prima componente principale spiega il 67.36% della variabilità. il 90% citato prima era un esempio esagerato, ma rende l'idea.
