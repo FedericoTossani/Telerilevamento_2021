@@ -59,11 +59,11 @@ plot(ndvi_sd9,col=cl)
 #possiamo usare l'analisi multivariata per generare solo lo strato delle pc1 in cui sta la maggior parte della mia diversità.
 #ovviamente non spiegherà tutto il range di diversità, ma circa il 90%.
 
-sentinelpca <- rasterPCA(sentinel)
-plot(sentinelpca$map)
+sentpca <- rasterPCA(sentinel)
+plot(sentpca$map)
 #devo specificare $map perchè la funzione rasterPCA crea anche il modello
 
-summary(sentinelpca$model)
+summary(sentpca$model)
 
 #Importance of components:
 #                           Comp.1     Comp.2      Comp.3 Comp.4
@@ -72,3 +72,60 @@ summary(sentinelpca$model)
 #Cumulative Proportion   0.6736804  0.9962557 1.000000000      1
 
 #si nota che la prima componente principale spiega il 67.36% della variabilità. il 90% citato prima era un esempio esagerato, ma rende l'idea.
+
+pc1<-sentpca$map$PC1
+
+pc1_sd5<-focal(pc1, w=matrix(1/25, nrow=5, ncol=5), fun=sd)
+clp<-colorRampPalette(c("blue","yellow","red","black","white"))(200)
+plot(pc1_sd5, col=clp)
+#stiamo lavorando su una sola banda perchè stiamo analizzando la dev.stand. di una singola banda.
+#la parte in blu rappresenta le aree più omogenee mentre le parti gialle e rosse rappresentano i limiti con le rocce, dove la variabilità aumenta.
+
+source("source_test_lezione.r")
+#la funzione source mi permette di importare in R un codice già pronto e vedere direttamente il risultato finale.
+
+source("source_ggplot.r")
+
+ggplot()+
+#con questa funzione abbiamo creato una finestra vuota! un po' come par.
+#a questo punto per riempirla vanno aggiunti dei blocchi con il +
+geom_raster(pc1_sd5, mapping=aes(x = x, y = y, fill = layer))+
+#di questa funzione ne esistono molte, una per ogni geometria possibili (geom_point, geom_line etc)
+#le estetiche in ggplot sono la parte plottata. la x, la y e tutti i valori al loro interno. tutto questo si inserisce nell'argomento mapping.
+
+#a livello geografico questo processo ci permetter di individuare qualsiasi tipo di discontinuità, a livello geologico ci permette di individuare qualsiasi tipo di variabilità geomorfologica.
+#a livello ecologico ci fa individuare qualsiasi passaggio ecologico (ecotono, passaggio da bosco a prateria)
+
+#adesso cambiano la palette di colori con viridis, qua di seguito la funzione necessaria.
+scale_fill_viridis()
+
+#### plot completo con viridis palette
+p1<-ggplot()+
+geom_raster(pc1_sd5, mapping=aes(x = x, y = y, fill = layer))+
+scale_fill_viridis()+
+ggtitle("Standard deviation of PC1 by viridis color scale")
+
+#### plot completo con magma palette
+p2<-ggplot()+
+geom_raster(pc1_sd5, mapping=aes(x = x, y = y, fill = layer))+
+scale_fill_viridis(option="magma")+
+ggtitle("Standard deviation of PC1 by magma color scale")
+
+#queste scale di colore permettono di mettere in risalto le aree a maggior dev. stand.
+
+#### plot completo con turbo palette
+p3<-ggplot()+
+geom_raster(pc1_sd5, mapping=aes(x = x, y = y, fill = layer))+
+scale_fill_viridis(option="turbo")+
+ggtitle("Standard deviation of PC1 by turno color scale")
+
+grid.arrange(p1, p2, p3, nrow=3)
+
+#mentre viridis e magma portano valori a maggior contrasto verso i valori maggiori, la legenda turbo ha il giallo nei valori medi (e l'occhio umano lo considera come max)
+
+
+
+
+
+
+
